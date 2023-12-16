@@ -1,10 +1,11 @@
 import vlc
 from time import sleep
 
-def playtimer(seconds):
+def playtimer(name,seconds):
 
     counter = int(seconds)
- 
+    print("\nTimer " + name + " Starts .......\n")
+
     while(True):
 
         if(counter == 0):
@@ -70,21 +71,21 @@ while(True):
             for index,timer in enumerate(data,1):
 
                 timerstr = timer.split(",")
-                print(index , " > " , timerstr[0] , "    " , timerstr[1])
+                print(index , " >  " + timerstr[0] + "   " + timerstr[1],end="\n")
 
-                choosed_timter = int(input("\nEnter Timer Number You Want To Start : "))
+            choosed_timter = int(input("\nEnter Timer Number You Want To Start : "))
 
-                if(choosed_timter > len(data)):
+            if(choosed_timter > len(data)):
 
-                    print("\nPlease Enter Valid Number")
+                print("\nPlease Enter Valid Number")
 
-                else:
+            else:
 
-                    print("\nTimer Starts ..... ")
-                    playtimer(timerstr[1])
+                timer_data = data[choosed_timter-1].split(",")
+                playtimer(timer_data[0],timer_data[1])
 
     elif(main_menu_choice == 0):
-        
+
         print("\nProgram Stopped ........")
         break
 
