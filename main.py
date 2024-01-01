@@ -25,15 +25,79 @@ def playtimer(name,seconds):
             counter -= 1
             print(counter , "Seconds Remaining ......")
         
+def edit(type, index):
+    file = open("timers.csv", "r")
+    all_timers_data = file.readlines()
+    file.close()
 
+    if index-1 > len(all_timers_data) or index-1 < 0:
+        print("\nInvalid Index")
+        return
 
-print("\nCountDown Timer")
+    if type == "name":
+        new_name = input("\nEnter New Timer Name: ")
+        old_timer_data = all_timers_data[index-1].split(",")
+        new_timer_data = new_name + "," + old_timer_data[1]
+    elif type == "time":
+        new_time = input("\nEnter New Timer Time (in seconds): ")
+        old_timer_data = all_timers_data[index-1].split(",")
+        new_timer_data = old_timer_data[0] + "," + new_time
+    else:
+        print("\nInvalid type")
+        return
+
+    all_timers_data[index-1] = new_timer_data
+
+    with open("timers.csv", "w") as file:
+        file.writelines(all_timers_data)
+
+    if type == "name":
+        print("\nTimer Name Updated Successfully")
+    elif type == "time":
+        print("\nTimer Time Updated Successfully")
+
+def show_timers():
+    
+    file = open("timers.csv")
+
+    all_timers_data = file.readlines()
+
+    file.close()
+
+    if len(all_timers_data) == 0:
+        print("\nNo Timers Found")
+        return -1
+
+    else:
+        print()
+        for index,timer in enumerate(all_timers_data,1):
+
+            timer = timer.split(",")
+
+            print(f"{index} > {timer[0]}    {timer[1]}",end="")
+        
+        print()
+
+def add_timer(name,timeout):
+    file = open("timers.csv","a")
+
+    timer_data = str(name + "," + timeout + "\n")
+    file.write(timer_data)
+    file.close()
+
+    print("\nTimer Added Success Fully , To Start Timer Choose 2n Option")
 
 while(True):
+
+
+    print("\nCurrent Timers")
+
+    show_timers()
 
     print("\nMain Menu")
     print("\n1 > Add Timer ")
     print("2 > Start Timer")
+    print("3 > Edit Timer")
     print("0 > Exit")
 
     main_menu_choice = int(input("\nEnter Choice : "))
@@ -41,15 +105,11 @@ while(True):
     if(main_menu_choice == 1):
 
         print("\nAdd Timer")
-        file = open("timers.csv","a")
 
         timer_name = input("\nEnter Timer Name : ")
-        timer_timeout = input("Enter Timer Timeout ( in seconds ) : ")
-        timer_data = str(timer_name + "," + timer_timeout + "\n")
-        file.write(timer_data)
-        file.close()
+        timer_timeout = input("Enter Timer Timeout ( in seconds ) : ")    
 
-        print("\nTimer Added Success Fully , To Start Timer Choose 2n Option")
+        add_timer(timer_name,timer_timeout)
 
     elif(main_menu_choice == 2):
 
@@ -84,6 +144,34 @@ while(True):
                 timer_data = data[choosed_timter-1].split(",")
                 playtimer(timer_data[0],timer_data[1])
 
+    elif main_menu_choice == 3:
+
+        if show_timers() == -1:
+            print("\nCannot Access This Point")
+        
+        else:
+
+            print("\nEdit Timer Menu")
+
+            print("\n1 > Edit Timer Name")
+            print("2 > Edit Timer Time")
+            print("0 > Cancel Edit Option")
+
+            edit_menu_choice = int(input("\nEnter Choice : "))
+
+            
+            if edit_menu_choice == 1:
+                
+                index = int(input("\nEnter Index Of Timer You Want To Update : "))
+                edit("name",index)
+            
+            elif edit_menu_choice == 2:
+
+                index = int(input("\nEnter Index Of Timer You Want To Update : "))
+                edit("time",index)
+
+            else:
+                print("\nUpdation Canceled")
     elif(main_menu_choice == 0):
 
         print("\nProgram Stopped ........")
