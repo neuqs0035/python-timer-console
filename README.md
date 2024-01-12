@@ -19,7 +19,7 @@ Before running the script, ensure you have the following installed:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/bhavya416/python-timer-console.git
+   git clone https://github.com/neuqs0035/python-timer-console.git
    cd python-timer-console
    ```
 2. **Run Script:**
